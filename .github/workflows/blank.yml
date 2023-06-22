@@ -20,7 +20,7 @@ jobs:
 
             const octokit = context.octokit || github.getOctokit(process.env.GITHUB_TOKEN);
             
-            const { data: projects } = await octokit.rest.projects.listForRepo({ owner: 'sahaspo', repo: 'integration-testing-of-own' });
+            const { data: projects } = await octokit.rest.projects.listForRepo({ owner: 'sahaspok', repo: 'integration-testing-of-own' });
 
             const projectMatch = projects.find(p => p.name.toLowerCase() === project.toLowerCase());
             if (!projectMatch) {
