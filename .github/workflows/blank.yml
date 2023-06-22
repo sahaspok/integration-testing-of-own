@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Set project and URL
-        uses: sahaspok/integration-testing-of-own@ref
+        uses: sahaspok/integration-testing-of-own@main
         with:
           project: "integration test" # Replace with your project name
           column: "To do" # Replace with your project column name
