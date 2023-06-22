@@ -1,25 +1,18 @@
-name: Issue Template Automation
+name: Assign New Issues to Project
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  set-project-and-url:
+  assign-to-project:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set project and URL
-        uses: sahaspok/integration-testing-of-own/blob/@main
+      - name: Assign to Project
+        uses: peter-evans/project-card@v3
         with:
-          project: "integration test" # Replace with your project name
-          column: "To do" # Replace with your project column name
+          project: "integration test"
+          column: "To do"
           issue-number: ${{ github.event.issue.number }}
-          custom-fields: |
-            [
-              {
-                "name": "URL",
-                "value": "test"
-              }
-            ]
           token: ${{ secrets.GITHUB_TOKEN }}
