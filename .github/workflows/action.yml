@@ -1,18 +1,1 @@
-name: Assign New Issues to Project
 
-on:
-  issues:
-    types: [opened]
-
-jobs:
-  assign-to-project:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Assign to Project
-        uses: peter-evans/project-card@v3
-        with:
-          project: "integration test"
-          column: "To do"
-          issue-number: ${{ github.event.issue.number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
