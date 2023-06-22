@@ -18,9 +18,10 @@ jobs:
             const column = 'To do';
             const issueNumber = context.payload.issue.number;
 
-            const octokit = context.octokit || github.getOctokit(process.env.GITHUB_TOKEN);
-            
-            const { data: projects } = await octokit.rest.projects.listForRepo({ owner: 'sahaspok', repo: 'integration-testing-of-own' });
+            const { Octokit } = require("@octokit/rest");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+
+            const { data: projects } = await octokit.projects.listForRepo({ owner: 'sahaspo', repo: 'integration-testing-of-own' });
 
             const projectMatch = projects.find(p => p.name.toLowerCase() === project.toLowerCase());
             if (!projectMatch) {
@@ -28,14 +29,14 @@ jobs:
               process.exit(1);
             }
 
-            const columns = await octokit.rest.projects.listColumns({ project_id: projectMatch.id });
+            const columns = await octokit.projects.listColumns({ project_id: projectMatch.id });
             const columnMatch = columns.data.find(c => c.name.toLowerCase() === column.toLowerCase());
             if (!columnMatch) {
               console.error(`Column "${column}" not found in project "${project}".`);
               process.exit(1);
             }
 
-            await octokit.rest.projects.createCard({
+            await octokit.projects.createCard({
               column_id: columnMatch.id,
               content_id: issueNumber,
               content_type: 'Issue'
