@@ -1,25 +1,25 @@
-name: Issue Automation
+name: Issue Template Automation
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  capture-issue-details:
+  set-project-and-url:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Capture issue details
-        id: issue
-        run: |
-          echo "Issue Number: ${{ github.event.issue.number }}"
-          echo "Issue Title: ${{ github.event.issue.title }}"
-          echo "URL: test"
-
-      - name: Update issue with custom field
-        uses: peter-evans/update-issue@v1
+      - name: Set project and URL
+        uses: peter-evans/project-card@v3
         with:
-          issue-number: ${{ steps.issue.outputs.issue_number }}
-          add-labels: custom-field
-          comment: |
-            **URL**: test
+          project: "Basic test" # Replace with your project name
+          column: "To do" # Replace with your project column name
+          issue-number: ${{ github.event.issue.number }}
+          custom-fields: |
+            [
+              {
+                "name": "URL",
+                "value": "test"
+              }
+            ]
+          token: ${{ secrets.GITHUB_TOKEN }}
