@@ -1,6 +1,41 @@
+name: Assign New Issues to Project
+
 on:
   issues:
-    types:
-      - opened
-      
-      
+    types: [opened]
+
+jobs:
+  assign-to-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign to Project
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const project = 'integration test';
+            const column = 'To do';
+            const issueNumber = context.payload.issue.number;
+
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            const { data: projects } = await octokit.projects.listForRepo({ owner: 'sahaspo', repo: 'integration-testing-of-own' });
+
+            const projectMatch = projects.find(p => p.name.toLowerCase() === project.toLowerCase());
+            if (!projectMatch) {
+              console.error(`Project "${project}" not found.`);
+              process.exit(1);
+            }
+
+            const columns = await octokit.projects.listColumns({ project_id: projectMatch.id });
+            const columnMatch = columns.data.find(c => c.name.toLowerCase() === column.toLowerCase());
+            if (!columnMatch) {
+              console.error(`Column "${column}" not found in project "${project}".`);
+              process.exit(1);
+            }
+
+            await octokit.projects.createCard({
+              column_id: columnMatch.id,
+              content_id: issueNumber,
+              content_type: 'Issue'
+            });
