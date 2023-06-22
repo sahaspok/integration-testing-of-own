@@ -1,0 +1,25 @@
+name: Issue Automation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  capture-issue-details:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Capture issue details
+        id: issue
+        run: |
+          echo "Issue Number: ${{ github.event.issue.number }}"
+          echo "Issue Title: ${{ github.event.issue.title }}"
+          echo "URL: test"
+
+      - name: Update issue with custom field
+        uses: peter-evans/update-issue@v1
+        with:
+          issue-number: ${{ steps.issue.outputs.issue_number }}
+          add-labels: custom-field
+          comment: |
+            **URL**: test
