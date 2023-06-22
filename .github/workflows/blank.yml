@@ -18,8 +18,9 @@ jobs:
             const column = 'To do';
             const issueNumber = context.payload.issue.number;
 
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-            const { data: projects } = await octokit.projects.listForRepo({ owner: 'sahaspo', repo: 'integration-testing-of-own' });
+            const octokit = context.octokit;
+            
+            const { data: projects } = await octokit.projects.listForRepo({ owner: 'sahaspok', repo: 'integration-testing-of-own' });
 
             const projectMatch = projects.find(p => p.name.toLowerCase() === project.toLowerCase());
             if (!projectMatch) {
