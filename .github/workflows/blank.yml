@@ -12,7 +12,7 @@ jobs:
       - name: Set project and URL
         uses: peter-evans/project-card@v3
         with:
-          project: "Basic test" # Replace with your project name
+          project: "integration test" # Replace with your project name
           column: "To do" # Replace with your project column name
           issue-number: ${{ github.event.issue.number }}
           custom-fields: |
