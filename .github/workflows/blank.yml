@@ -1,0 +1,6 @@
+on:
+  issues:
+    types:
+      - opened
+      
+      
