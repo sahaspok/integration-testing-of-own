@@ -5,7 +5,7 @@ title: ''
 labels: ''
 assignees: sahaspok
 labels: 'bug'
-Project: "integration test"
+project: integration test
 
 
 ---
